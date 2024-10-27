@@ -1,17 +1,23 @@
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.TextCore;
 
-public class Guy : MonoBehaviour
+public class Guy : Player
 {
+    /* ==========  FUNCTIONS  ========== */
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        Debug.Log("Created capsule object!\n");
+        
     }
 
     // Update is called once per frame
-    void Update()
+    public override void Update()
     {
-        Vector3 disp = new Vector3(1.0f * Time.deltaTime, 0.0f, 0.0f);
-        transform.position += disp;
+        // get user input
+        get_input(Input.GetAxis("Vertical"), Input.GetAxis("Horizontal"), Input.GetKey(KeyCode.Space));
+        base.Update();
     }
 }
