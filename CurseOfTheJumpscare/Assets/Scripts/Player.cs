@@ -11,6 +11,8 @@ public class Player : MonoBehaviour
     public KeyCode FORWARDS = KeyCode.W, BACKWARDS = KeyCode.S,
                    LEFT = KeyCode.A, RIGHT = KeyCode.D, JUMP = KeyCode.Space;
 
+    public float LOOK_SENSITIVITY = 1.0f;
+
 
     /* ==========  CONSTANTS  ========== */
 
@@ -68,9 +70,9 @@ public class Player : MonoBehaviour
     public void get_input(float mouseX, float mouseY)
     {
         // rotate object around y axis by mouseX
-        transform.Rotate(0,mouseX,0);
+        transform.Rotate(0,mouseX*LOOK_SENSITIVITY*Time.deltaTime,0);
         // rotate camera around x axis by y movement
-        view.transform.Rotate(-mouseY,0,0);
+        view.transform.Rotate(-mouseY*LOOK_SENSITIVITY*Time.deltaTime,0,0);
 
         // find input along axes
         float vertMovement = (Input.GetKey(FORWARDS)?1f:0f) - (Input.GetKey(BACKWARDS)?1f:0f), 
