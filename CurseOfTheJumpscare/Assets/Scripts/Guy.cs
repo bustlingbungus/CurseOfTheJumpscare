@@ -16,8 +16,7 @@ public class Guy : Player
     // Update is called once per frame
     public override void Update()
     {
-        // get user input
-        get_input(Input.GetAxis("Vertical"), Input.GetAxis("Horizontal"), Input.GetKey(KeyCode.Space));
+        get_input(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
         base.Update();
     }
 }

@@ -13,10 +13,4 @@ public class ObjectManager : MonoBehaviour
     {
         
     }
-
-    /* Applies gravity to all game objects */
-    void apply_gravity()
-    {
-        
-    }
 }

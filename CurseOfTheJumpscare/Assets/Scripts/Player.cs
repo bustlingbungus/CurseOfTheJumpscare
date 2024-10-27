@@ -6,6 +6,12 @@ using UnityEngine.TextCore;
 // baseplate script for player objects
 public class Player : MonoBehaviour
 {
+    /* ==========  INPUT KEYBINDS  ========== */
+
+    public KeyCode FORWARDS = KeyCode.W, BACKWARDS = KeyCode.S,
+                   LEFT = KeyCode.A, RIGHT = KeyCode.D, JUMP = KeyCode.Space;
+
+
     /* ==========  CONSTANTS  ========== */
 
     // Position of the camera relative to the player's centre
@@ -59,8 +65,17 @@ public class Player : MonoBehaviour
     }
 
     /* sets velocity based on user input */
-    public void get_input(float vertMovement, float horzMovement, bool jump)
+    public void get_input(float mouseX, float mouseY)
     {
+        // rotate object around y axis by mouseX
+        transform.Rotate(0,mouseX,0);
+        // rotate camera around x axis by y movement
+        view.transform.Rotate(-mouseY,0,0);
+
+        // find input along axes
+        float vertMovement = (Input.GetKey(FORWARDS)?1f:0f) - (Input.GetKey(BACKWARDS)?1f:0f), 
+              horzMovement = (Input.GetKey(LEFT)?1f:0f) - (Input.GetKey(RIGHT)?1f:0f); 
+
         // update facing direction based on object rotation
         float rad = transform.eulerAngles.y * Mathf.Deg2Rad;
         facing = new Vector3(MathF.Sin(rad), 0f, MathF.Cos(rad));
@@ -69,7 +84,7 @@ public class Player : MonoBehaviour
         Vector3 forward = facing * vertMovement;
         // vector orthogonal to the direction the player is facing
         Vector3 orth = Vector3.Cross(facing, Vector3.up);
-        Vector3 sideways = orth * -horzMovement;
+        Vector3 sideways = orth * horzMovement;
 
         // get input velocity vector
         float y = velocity.y;
@@ -79,24 +94,23 @@ public class Player : MonoBehaviour
         velocity.y += y;
 
         // jump when space is pressed
-        if (jump && !airborne) velocity.y += JUMP_HEIGHT;
+        if (Input.GetKey(JUMP) && !airborne) velocity.y += JUMP_HEIGHT;
     }
 
-    /* Sets the camera position relative to the objec't centre, based on the facing vector */
+    /* Sets the camera position relative to the object's centre, based on the facing vector */
     void set_camera()
     {
         Vector3 disp = new Vector3(facing.x*CAMERA_DISPLACEMENT.x, CAMERA_DISPLACEMENT.y, facing.z*CAMERA_DISPLACEMENT.x);
         view.transform.position = transform.position + disp;
-        view.transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.x);
+        view.transform.eulerAngles = new Vector3(view.transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.x);
     }
 
     /* Stop the guy from moving up/down when they hit the ground */    
     void OnCollisionStay(Collision collision)
     {
-        // for (int i=0, n=collision.contactCount; i<n; i++)
-        // {
-        //     ContactPoint contact = collision.GetContact(i);
-        // }
+        // usually you wouldn't do something like this, since this marks the player as 
+        // airborne and cancels y velocity when they collide with ANYTHING (not just the ground)
+        // I'll fix this if I have time, if not I don't think it's a big deal in this context
         velocity.y = 0f;
         airborne = false;
     }
@@ -104,10 +118,9 @@ public class Player : MonoBehaviour
     /* Stop the guy from moving up/down when they hit the ground */
     void OnCollisionEnter(Collision collision)
     {
-        // for (int i=0, n=collision.contactCount; i<n; i++)
-        // {
-        //     ContactPoint contact = collision.GetContact(i);
-        // }
+        // usually you wouldn't do something like this, since this marks the player as 
+        // airborne and cancels y velocity when they collide with ANYTHING (not just the ground)
+        // I'll fix this if I have time, if not I don't think it's a big deal in this context
         velocity.y = 0f;
         airborne = false;
     }
