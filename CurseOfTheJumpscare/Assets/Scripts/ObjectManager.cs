@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Video;
 
 public class ObjectManager : MonoBehaviour
 {
@@ -24,11 +25,18 @@ public class ObjectManager : MonoBehaviour
     // the amount of candy required to win 
     public int CANDY_WIN_AMT = 5;
 
+    // the maximum distance the monster can jumpscare from
+    public float MAX_JUMPSCARE_DIST = 7.0f;
+    // the amount of jumpscares required for monster victory
+    public int JUMPSCARE_WIN_AMT = 2;
+
 
     /* ==========  GAME VARIABLES  ========== */
 
     // the amount of candy the player has picked up
     private int candy_picked_up = 0;
+    // the number of times the monster has jumpscared the guy
+    private int num_jumpscares = 0;
 
 
     /* ==========  GAME OBJECTS  ========== */
@@ -43,6 +51,7 @@ public class ObjectManager : MonoBehaviour
     // the candy the guy player is close to, tracked to avoid searching candies every frame
     private Candy close_candy = null;
 
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -53,6 +62,7 @@ public class ObjectManager : MonoBehaviour
     void Update()
     {
         guy_input();
+        monster_input();
     }
 
 
@@ -82,7 +92,7 @@ public class ObjectManager : MonoBehaviour
     // checks if the guy is looking at close_candy. if they are, interact with it. if 
     // close_candy has been interacted with long enough, increment score and destroy the candy
     // \param dir the unit vector pointing from the guy to the candy
-    void attempt_candy_pickup(UnityEngine.Vector3 dir)
+    private void attempt_candy_pickup(UnityEngine.Vector3 dir)
     {
         // dot product of unit vectors: -1 <= x <= 1
         // if the dot product is greater than the required value, the guy is looking 
@@ -103,7 +113,7 @@ public class ObjectManager : MonoBehaviour
 
     // searches candies list to see if the player is standing close to any candy. 
     // if a potential candy is found, begin attempting to pick it up
-    void search_for_candy()
+    private void search_for_candy()
     {
         // iterate through all candies
         for (int i=0, n=candies.Count; i<n; i++)
@@ -117,5 +127,30 @@ public class ObjectManager : MonoBehaviour
                 break;
             }
         }
+    }
+
+    private void monster_input()
+    {
+        if (Input.GetMouseButton(jumpscareGuy))
+        {
+            UnityEngine.Vector3 dist = guy.transform.position - monster.transform.position;
+            if (dist.magnitude <= MAX_JUMPSCARE_DIST)
+            {
+                // valid if the monster is looking at the guy AND both players are facing the same direction
+                // monster looking at guy: dot product of monster facing and displacement is positive
+                // facing same direction: dot product of facing vectors positive
+                if (UnityEngine.Vector3.Dot(monster.Facing(), dist) > 0.0f && 
+                    UnityEngine.Vector3.Dot(monster.Facing(), guy.Facing()) > 0.0f) {
+                    jumpscare();
+                }
+            }
+        }
+    }
+
+    // performs a jumpscare
+    private void jumpscare()
+    {
+        Debug.Log("Jumpscare!\n");
+        num_jumpscares++;
     }
 }
