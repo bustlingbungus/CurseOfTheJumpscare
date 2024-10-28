@@ -27,7 +27,6 @@ public class Candy : MonoBehaviour
             interaction = false;
         // else, decrease the candy timer (keep above zero)
         } else if (pickupTimer > 0.0f) pickupTimer = MathF.Max(0.0f, pickupTimer - Time.deltaTime);
-        Debug.Log(pickupTimer);
     }
 
     /* ==========  HELPER FUNCTIONS  ==========*/
@@ -37,5 +36,11 @@ public class Candy : MonoBehaviour
     public bool interact() {
         interaction = true;
         return pickupTimer >= PICKUP_TIME;
+    }
+
+    // Destroys the candy gameobject
+    public void Destroy()
+    {
+        Destroy(gameObject);
     }
 }
