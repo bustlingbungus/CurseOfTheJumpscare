@@ -21,6 +21,15 @@ public class ObjectManager : MonoBehaviour
     // 1 = needs to look directly at it, -1 = no requirement
     public float CANDY_LOOK_REQ = 0.5f;
 
+    // the amount of candy required to win 
+    public int CANDY_WIN_AMT = 5;
+
+
+    /* ==========  GAME VARIABLES  ========== */
+
+    // the amount of candy the player has picked up
+    private int candy_picked_up = 0;
+
 
     /* ==========  GAME OBJECTS  ========== */
 
@@ -29,11 +38,7 @@ public class ObjectManager : MonoBehaviour
     // monster player
     public Monster monster;
 
-    // list of all candy on the map
-    public List<Candy> candies;
-    // the candy the player is standing near to. keep track of it se that we don't 
-    // have to search the entire candies list every frame
-    private Candy close_candy = null;
+    public Candy candy;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -54,38 +59,20 @@ public class ObjectManager : MonoBehaviour
     // handles pickup input from guy player
     private void guy_input()
     {
-        // check to see if the guy is still in range of close candy
-        UnityEngine.Vector3 dist = UnityEngine.Vector3.zero;
-        if (close_candy != null) {
-            dist = close_candy.transform.position - guy.transform.position;
-            // n0 longer in range of candy
-            if (dist.magnitude > MAX_DIST_TO_CANDY) close_candy = null;
-        }
-
-        // if the guy is trying to pick up candy
-        if (Input.GetMouseButton(pickUpCandy))
+        if (candy != null)
         {
-            // if there is not currently candy being tracked, see if the player is standing close to a candy
-            if (close_candy == null)
+            UnityEngine.Vector3 dist = candy.transform.position - guy.transform.position;
+            if (dist.magnitude <= MAX_DIST_TO_CANDY && Input.GetMouseButton(pickUpCandy))
             {
-                for (int i=0, n=candies.Count; i<n; i++)
+                dist.Normalize();
+                if (UnityEngine.Vector3.Dot(dist, guy.Facing()) >= CANDY_LOOK_REQ)
                 {
-                    Candy candy = candies[i];
-                    UnityEngine.Vector3 disp = candy.transform.position - guy.transform.position;
-                    // the guy is standing close to the candy, update `close_candy` and stop searching
-                    if (disp.magnitude <= MAX_DIST_TO_CANDY) {
-                        close_candy = candy; break;
+                    if (candy.interact())
+                    {
+                        Destroy(candy);
+                        candy = null;
                     }
                 }
-            } // if the guy is already standing close to a candy, see if they are looking at it
-            else 
-            {
-                UnityEngine.Vector3 lookDir = guy.Facing();
-                // normalise dist to get the direction of the displacement as a unit vector
-                dist.Normalize();
-                // dot product of unit vectors: -1 <= x <= 1,
-                // if the dot product is greater than the specified value, then the player is looking at the candy   
-                if (UnityEngine.Vector3.Dot(dist, lookDir) >= CANDY_LOOK_REQ) close_candy.interact();
             }
         }
     }

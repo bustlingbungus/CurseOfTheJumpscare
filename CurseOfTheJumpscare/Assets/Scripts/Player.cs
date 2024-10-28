@@ -87,12 +87,7 @@ public class Player : MonoBehaviour
 
         // update facing direction based on object rotation
         float rad = transform.eulerAngles.y * Mathf.Deg2Rad;
-        facing = new Vector3(
-            MathF.Sin(rad), 
-            -MathF.Sin(view.transform.eulerAngles.x * Mathf.Deg2Rad), 
-            MathF.Cos(rad)
-        );
-        facing.Normalize();
+        facing = new Vector3(MathF.Sin(rad), 0.0f, MathF.Cos(rad));
 
         // find directions for movement
         Vector3 forward = facing * vertMovement;
@@ -109,6 +104,9 @@ public class Player : MonoBehaviour
 
         // jump when space is pressed
         if (Input.GetKey(JUMP) && !airborne) velocity.y += JUMP_HEIGHT;
+
+        facing.y = -MathF.Sin(view.transform.eulerAngles.x * Mathf.Deg2Rad);
+        facing.Normalize();
     }
 
     /* Sets the camera position relative to the object's centre, based on the facing vector */

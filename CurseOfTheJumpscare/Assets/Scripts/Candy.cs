@@ -27,12 +27,15 @@ public class Candy : MonoBehaviour
             interaction = false;
         // else, decrease the candy timer (keep above zero)
         } else if (pickupTimer > 0.0f) pickupTimer = MathF.Max(0.0f, pickupTimer - Time.deltaTime);
+        Debug.Log(pickupTimer);
     }
 
     /* ==========  HELPER FUNCTIONS  ==========*/
 
     // allows the candy's pickup timer to be incremented for one frame
-    public void interact() {
+    // if the pickup timer is greater than or equal to the total pickup time, returns true
+    public bool interact() {
         interaction = true;
+        return pickupTimer >= PICKUP_TIME;
     }
 }
