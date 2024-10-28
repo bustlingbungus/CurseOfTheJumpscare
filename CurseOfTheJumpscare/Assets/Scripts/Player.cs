@@ -43,7 +43,11 @@ public class Player : MonoBehaviour
     private bool airborne = true;
 
 
-    /* ==========  FUNCTIONS  ========== */
+    /* ==========  ACCESSORS  ========== */
+
+    // unit vector pointing int the direction the player is facing 
+    public Vector3 Facing() { return facing; }
+    
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -65,6 +69,9 @@ public class Player : MonoBehaviour
         // if the y velocity is significant, the player must be falling or flying
         if (MathF.Abs(velocity.y) > 1f) airborne = true;
     }
+    
+    
+    /* ==========  HELPER FUNCTIONS  ========== */
 
     /* sets velocity based on user input */
     public void get_input(float mouseX, float mouseY)
@@ -80,7 +87,12 @@ public class Player : MonoBehaviour
 
         // update facing direction based on object rotation
         float rad = transform.eulerAngles.y * Mathf.Deg2Rad;
-        facing = new Vector3(MathF.Sin(rad), 0f, MathF.Cos(rad));
+        facing = new Vector3(
+            MathF.Sin(rad), 
+            -MathF.Sin(view.transform.eulerAngles.x * Mathf.Deg2Rad), 
+            MathF.Cos(rad)
+        );
+        facing.Normalize();
 
         // find directions for movement
         Vector3 forward = facing * vertMovement;

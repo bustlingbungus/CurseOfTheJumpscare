@@ -275,7 +275,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.9258706, z: 0, w: 0.3778408}
   m_LocalPosition: {x: 138.1, y: -1.73, z: 174.5}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 330585546}
@@ -9651,6 +9651,63 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 644548697}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &664108079
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 824401124}
+    m_Modifications:
+    - target: {fileID: 688390808003458448, guid: d1046bb553629ee4faa4d52dfebeb17d, type: 3}
+      propertyPath: m_Name
+      value: Candy
+      objectReference: {fileID: 0}
+    - target: {fileID: 2494984300743665314, guid: d1046bb553629ee4faa4d52dfebeb17d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 139.55159
+      objectReference: {fileID: 0}
+    - target: {fileID: 2494984300743665314, guid: d1046bb553629ee4faa4d52dfebeb17d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.34572005
+      objectReference: {fileID: 0}
+    - target: {fileID: 2494984300743665314, guid: d1046bb553629ee4faa4d52dfebeb17d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 196.03796
+      objectReference: {fileID: 0}
+    - target: {fileID: 2494984300743665314, guid: d1046bb553629ee4faa4d52dfebeb17d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2494984300743665314, guid: d1046bb553629ee4faa4d52dfebeb17d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2494984300743665314, guid: d1046bb553629ee4faa4d52dfebeb17d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2494984300743665314, guid: d1046bb553629ee4faa4d52dfebeb17d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2494984300743665314, guid: d1046bb553629ee4faa4d52dfebeb17d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2494984300743665314, guid: d1046bb553629ee4faa4d52dfebeb17d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2494984300743665314, guid: d1046bb553629ee4faa4d52dfebeb17d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d1046bb553629ee4faa4d52dfebeb17d, type: 3}
 --- !u!1 &666047755
 GameObject:
   m_ObjectHideFlags: 0
@@ -11609,7 +11666,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b17ab188ee6a18f4db6b9f017ad4db85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  candyPrefab: {fileID: 2777563026146143641, guid: d1046bb553629ee4faa4d52dfebeb17d, type: 3}
+  pickUpCandy: 0
+  jumpscareGuy: 1
+  MAX_DIST_TO_CANDY: 4
+  CANDY_LOOK_REQ: 0.5
+  guy: {fileID: 3114779}
+  monster: {fileID: 1572676984}
+  candies:
+  - {fileID: 1672213413}
 --- !u!4 &824401124
 Transform:
   m_ObjectHideFlags: 0
@@ -11625,6 +11689,7 @@ Transform:
   m_Children:
   - {fileID: 3114783}
   - {fileID: 1572676980}
+  - {fileID: 1672213417}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &831192892
@@ -21396,7 +21461,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 158.2, y: -1.02, z: 150.2}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1502409020}
@@ -23290,6 +23355,22 @@ Transform:
   - {fileID: 1438534989}
   m_Father: {fileID: 1466587856}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1672213413 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2777563026146143641, guid: d1046bb553629ee4faa4d52dfebeb17d, type: 3}
+  m_PrefabInstance: {fileID: 664108079}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a175cad72d33cbb40b9140a4e8403b5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1672213417 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2494984300743665314, guid: d1046bb553629ee4faa4d52dfebeb17d, type: 3}
+  m_PrefabInstance: {fileID: 664108079}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1675960039
 GameObject:
   m_ObjectHideFlags: 0
