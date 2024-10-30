@@ -9965,7 +9965,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2777563026146143641, guid: d1046bb553629ee4faa4d52dfebeb17d, type: 3}
       propertyPath: PICKUP_TIME
-      value: 0.5
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -12078,6 +12078,8 @@ MonoBehaviour:
   guy: {fileID: 3114779}
   monster: {fileID: 1572676984}
   jumpscarePrefab: {fileID: 4283320119236165003, guid: b50750bc8e0399f4bba1f751dca70c89, type: 3}
+  monsterWinPrefab: {fileID: 5009485150134120995, guid: 39c9164bd10d9fe4aa0a39c1d9d9661d, type: 3}
+  guyWinPrefab: {fileID: 5623622761935777747, guid: 0035fa8bb75ff0548bc7cfe72a7dd9c7, type: 3}
   candies:
   - {fileID: 1672213413}
   - {fileID: 1102161550}

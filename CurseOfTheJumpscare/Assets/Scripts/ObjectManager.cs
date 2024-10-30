@@ -12,6 +12,8 @@ public class ObjectManager : MonoBehaviour
     public int pickUpCandy = 0; // left click
     // button monster presses to jumpscare 
     public int jumpscareGuy = 1;
+    // the key to press to restart the game
+    // public KeyCode restart = KeyCode.Backspace;
 
 
     /* ==========  CONSTANT GAME VARIABLES  ========== */
@@ -49,6 +51,8 @@ public class ObjectManager : MonoBehaviour
     private int candy_picked_up = 0;
     // the number of times the monster has jumpscared the guy
     private int num_jumpscares = 0;
+    // whether or not either player has won
+    private bool game_is_over = false;
 
 
     /* ==========  GAME OBJECTS  ========== */
@@ -59,6 +63,10 @@ public class ObjectManager : MonoBehaviour
     public Monster monster;
     // prefab for jumpscare
     public Jumpscare jumpscarePrefab;
+    // prefab for monster victory
+    public GameObject monsterWinPrefab;
+    // prefab for guy victory
+    public GameObject guyWinPrefab;
 
     // list of all candy objects
     public List<Candy> candies;
@@ -77,6 +85,21 @@ public class ObjectManager : MonoBehaviour
     {
         guy_input();
         monster_input();
+
+        // check win conditions
+        if (!game_is_over)
+        {
+            // guy victory
+            if (candy_picked_up >= CANDY_WIN_AMT) {
+                Instantiate(guyWinPrefab);
+                game_is_over = true;
+            }
+            // monster victory
+            else if (num_jumpscares >= JUMPSCARE_WIN_AMT) {
+                Instantiate(monsterWinPrefab);
+                game_is_over = true;
+            }
+        }
     }
 
 
@@ -184,4 +207,11 @@ public class ObjectManager : MonoBehaviour
         respawn_players();
         num_jumpscares++;
     }
+
+    // resets the game
+    // private void reset_game()
+    // {
+    //     candy_picked_up = num_jumpscares = 0;
+    //     close_candy = null;
+    // }
 }
