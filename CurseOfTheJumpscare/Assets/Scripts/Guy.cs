@@ -2,7 +2,7 @@ using System;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.TextCore;
-// trsts
+
 public class Guy : Player
 {
     /* ==========  FUNCTIONS  ========== */
