@@ -41,28 +41,18 @@ public class Player : MonoBehaviour
 
     // Whether or not the player is on the ground
     private bool airborne = true;
-    // Whether or not the player has a jumpscare currently
-    private bool is_jumpscared = false;
 
 
     /* ==========  ACCESSORS  ========== */
 
     // unit vector pointing int the direction the player is facing 
     public Vector3 Facing() { return facing; }
-    // Whether or not the player has a jumpscare currently
-    public bool isJumpscared() { return is_jumpscared; }
-    
-
-    /* ==========  MUTATORS  ========== */
-
-    // toggles jumpscared status
-    public void makeScared(bool isScared) { is_jumpscared = isScared; }
     
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -120,7 +110,7 @@ public class Player : MonoBehaviour
     }
 
     /* Sets the camera position relative to the object's centre, based on the facing vector */
-    void set_camera()
+    private void set_camera()
     {
         Vector3 disp = new Vector3(facing.x*CAMERA_DISPLACEMENT.x, CAMERA_DISPLACEMENT.y, facing.z*CAMERA_DISPLACEMENT.x);
         view.transform.position = transform.position + disp;

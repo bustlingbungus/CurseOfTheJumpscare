@@ -30,6 +30,18 @@ public class ObjectManager : MonoBehaviour
     // the amount of jumpscares required for monster victory
     public int JUMPSCARE_WIN_AMT = 2;
 
+    // list of valid positions the guy and monster can be teleported to 
+    public List<UnityEngine.Vector3> spawn_locations = new List<UnityEngine.Vector3>
+    {
+        new UnityEngine.Vector3(178f, 2f, 136f),
+        new UnityEngine.Vector3(237f, 2f, 125f),
+        new UnityEngine.Vector3(111f, 2f, 182f),
+        new UnityEngine.Vector3(134f, 2f, 104f),
+        new UnityEngine.Vector3(195f, 2f, 188f),
+        new UnityEngine.Vector3(85f , 2f, 56f ),
+        new UnityEngine.Vector3(49f , 2f, 125f),
+    };
+
 
     /* ==========  GAME VARIABLES  ========== */
 
@@ -57,7 +69,7 @@ public class ObjectManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        respawn_players();
     }
 
     // Update is called once per frame
@@ -69,6 +81,20 @@ public class ObjectManager : MonoBehaviour
 
 
     /* ==========  HELPER FUNCTIONS  ========== */
+
+    // sets both player's positions to a random point in the spawn_locations list
+    private void respawn_players()
+    {
+        // get random indices for the spawn locations list
+        System.Random rnd = new System.Random();
+        int guy_idx = rnd.Next(spawn_locations.Count), monster_idx = rnd.Next(spawn_locations.Count);
+        // ensure the indices are different 
+        if (guy_idx == monster_idx) monster_idx = (monster_idx+1)%spawn_locations.Count;
+
+        // set the players' locations to the chosen locations
+        guy.transform.position = spawn_locations[guy_idx];
+        monster.transform.position = spawn_locations[monster_idx];
+    }
 
     // updates the closest candy member if the guy is too far away
     // handles pickup input from guy player
@@ -152,8 +178,10 @@ public class ObjectManager : MonoBehaviour
     // spawns two jumpscare objects 
     private void jumpscare()
     {
-        // one for each player
-        Instantiate(jumpscarePrefab); Instantiate(jumpscarePrefab);
+        // create jumpscare object
+        Instantiate(jumpscarePrefab);
+        // put both players in random locations
+        respawn_players();
         num_jumpscares++;
     }
 }

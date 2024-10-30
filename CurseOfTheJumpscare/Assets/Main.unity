@@ -274,7 +274,7 @@ Transform:
   m_GameObject: {fileID: 3114777}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.9258706, z: 0, w: 0.3778408}
-  m_LocalPosition: {x: 138.1, y: -1.73, z: 174.5}
+  m_LocalPosition: {x: 49, y: 19.2, z: 125}
   m_LocalScale: {x: 1, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -9963,6 +9963,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2777563026146143641, guid: d1046bb553629ee4faa4d52dfebeb17d, type: 3}
+      propertyPath: PICKUP_TIME
+      value: 0.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -12063,6 +12067,14 @@ MonoBehaviour:
   CANDY_WIN_AMT: 5
   MAX_JUMPSCARE_DIST: 7
   JUMPSCARE_WIN_AMT: 2
+  spawn_locations:
+  - {x: 178, y: 2, z: 136}
+  - {x: 237, y: 2, z: 125}
+  - {x: 111, y: 2, z: 182}
+  - {x: 134, y: 2, z: 104}
+  - {x: 195, y: 2, z: 188}
+  - {x: 85, y: 2, z: 56}
+  - {x: 49, y: 2, z: 125}
   guy: {fileID: 3114779}
   monster: {fileID: 1572676984}
   jumpscarePrefab: {fileID: 4283320119236165003, guid: b50750bc8e0399f4bba1f751dca70c89, type: 3}
@@ -22182,7 +22194,7 @@ Transform:
   m_GameObject: {fileID: 1572676979}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 158.2, y: -1.02, z: 150.2}
+  m_LocalPosition: {x: 237, y: 19.9, z: 125}
   m_LocalScale: {x: 1, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
