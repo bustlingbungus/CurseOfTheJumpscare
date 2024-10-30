@@ -45,6 +45,8 @@ public class ObjectManager : MonoBehaviour
     public Guy guy;
     // monster player
     public Monster monster;
+    // prefab for jumpscare
+    public Jumpscare jumpscarePrefab;
 
     // list of all candy objects
     public List<Candy> candies;
@@ -147,10 +149,11 @@ public class ObjectManager : MonoBehaviour
         }
     }
 
-    // performs a jumpscare
+    // spawns two jumpscare objects 
     private void jumpscare()
     {
-        Debug.Log("Jumpscare!\n");
+        // one for each player
+        Instantiate(jumpscarePrefab); Instantiate(jumpscarePrefab);
         num_jumpscares++;
     }
 }

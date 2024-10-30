@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 3114778}
   m_Layer: 0
   m_Name: Guy
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12061,8 +12061,11 @@ MonoBehaviour:
   MAX_DIST_TO_CANDY: 4
   CANDY_LOOK_REQ: 0.5
   CANDY_WIN_AMT: 5
+  MAX_JUMPSCARE_DIST: 7
+  JUMPSCARE_WIN_AMT: 2
   guy: {fileID: 3114779}
   monster: {fileID: 1572676984}
+  jumpscarePrefab: {fileID: 4283320119236165003, guid: b50750bc8e0399f4bba1f751dca70c89, type: 3}
   candies:
   - {fileID: 1672213413}
   - {fileID: 1102161550}
@@ -22165,7 +22168,7 @@ GameObject:
   - component: {fileID: 1572676985}
   m_Layer: 0
   m_Name: Monster
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

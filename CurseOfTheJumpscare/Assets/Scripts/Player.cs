@@ -31,7 +31,7 @@ public class Player : MonoBehaviour
     // global object manager
     public ObjectManager manager;
 
-    /* ==========  Player OBJECT VARIABLES  ========== */
+    /* ==========  PLAYER OBJECT VARIABLES  ========== */
 
     // Rate of change of position
     public Vector3 velocity = Vector3.zero;
@@ -41,12 +41,22 @@ public class Player : MonoBehaviour
 
     // Whether or not the player is on the ground
     private bool airborne = true;
+    // Whether or not the player has a jumpscare currently
+    private bool is_jumpscared = false;
 
 
     /* ==========  ACCESSORS  ========== */
 
     // unit vector pointing int the direction the player is facing 
     public Vector3 Facing() { return facing; }
+    // Whether or not the player has a jumpscare currently
+    public bool isJumpscared() { return is_jumpscared; }
+    
+
+    /* ==========  MUTATORS  ========== */
+
+    // toggles jumpscared status
+    public void makeScared(bool isScared) { is_jumpscared = isScared; }
     
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
