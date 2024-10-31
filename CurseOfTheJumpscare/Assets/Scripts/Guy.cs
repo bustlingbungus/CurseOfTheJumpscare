@@ -10,13 +10,13 @@ public class Guy : Player
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        set_axes(1);
     }
 
     // Update is called once per frame
     public override void Update()
     {
-        get_input(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+        get_input();
         base.Update();
     }
 }

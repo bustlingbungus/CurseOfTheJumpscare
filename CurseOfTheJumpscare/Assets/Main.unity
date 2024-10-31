@@ -179,11 +179,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 346030645de73ad45b6f8302c3f8673b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FORWARDS: 119
-  BACKWARDS: 115
-  LEFT: 97
-  RIGHT: 100
-  JUMP: 32
   LOOK_SENSITIVITY: 200
   CAMERA_DISPLACEMENT: {x: 0.5, y: 1.25}
   MOVE_SPEED: 10
@@ -11488,8 +11483,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b17ab188ee6a18f4db6b9f017ad4db85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickUpCandy: 0
-  jumpscareGuy: 1
+  restart: 32
   MAX_DIST_TO_CANDY: 4
   CANDY_LOOK_REQ: 0.5
   CANDY_WIN_AMT: 6
@@ -21399,11 +21393,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a55d827770f7ca341973b28dda852603, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FORWARDS: 105
-  BACKWARDS: 107
-  LEFT: 106
-  RIGHT: 108
-  JUMP: 109
   LOOK_SENSITIVITY: 200
   CAMERA_DISPLACEMENT: {x: 0.5, y: 1.25}
   MOVE_SPEED: 10
@@ -21411,10 +21400,6 @@ MonoBehaviour:
   view: {fileID: 1502409022}
   manager: {fileID: 824401123}
   velocity: {x: 0, y: 0, z: 0}
-  LOOK_LEFT: 276
-  LOOK_RIGHT: 275
-  LOOK_UP: 273
-  LOOK_DOWN: 274
 --- !u!54 &1572676985
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -1,17 +1,18 @@
 using System;
 using Unity.VisualScripting;
+using UnityEditor.Rendering.LookDev;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.TextCore;
 
 // baseplate script for player objects
 public class Player : MonoBehaviour
 {
     /* ==========  INPUT KEYBINDS  ========== */
+    [SerializeField] private float LOOK_SENSITIVITY = 1.0f;
 
-    public KeyCode FORWARDS = KeyCode.W, BACKWARDS = KeyCode.S,
-                   LEFT = KeyCode.A, RIGHT = KeyCode.D, JUMP = KeyCode.Space;
-
-    public float LOOK_SENSITIVITY = 1.0f;
+    // strings used for getting axis input
+    private string x_movement_axis, y_movement_axis, x_look_axis, y_look_axis, jump;
 
 
     /* ==========  CONSTANTS  ========== */
@@ -35,6 +36,8 @@ public class Player : MonoBehaviour
 
     // Rate of change of position
     public Vector3 velocity = Vector3.zero;
+    // input velocity 
+    private Vector3 input_vel = Vector3.zero;
 
     // Unit vector representing where player is looking
     private Vector3 facing = Vector3.forward;
@@ -47,12 +50,12 @@ public class Player : MonoBehaviour
 
     // unit vector pointing int the direction the player is facing 
     public Vector3 Facing() { return facing; }
-    
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
+        
     }
 
     // Update is called once per frame
@@ -70,30 +73,44 @@ public class Player : MonoBehaviour
         if (MathF.Abs(velocity.y) > 1f) airborne = true;
     }
     
-    
     /* ==========  HELPER FUNCTIONS  ========== */
 
-    /* sets velocity based on user input */
-    public void get_input(float mouseX, float mouseY)
+    /* Sets controller axis strings based on controller number */
+    public void set_axes(int controllerNumber)
     {
+        x_movement_axis = "Joy" + controllerNumber + "Horizontal";
+        y_movement_axis = "Joy" + controllerNumber + "Vertical";
+        x_look_axis = "Look" + controllerNumber + "Horizontal";
+        y_look_axis = "Look" + controllerNumber + "Vertical";
+        jump = "J" + controllerNumber + "A";
+    }
+
+    /* sets velocity based on user input */
+    public void get_input()
+    {
+        float lookXamt = Input.GetAxis(x_look_axis);
+        float lookYamt = -Input.GetAxis(y_look_axis);
+        float xMove    = Input.GetAxis(x_movement_axis);
+        float yMove    = -Input.GetAxis(y_movement_axis);
+        
+        
         // rotate object around y axis by mouseX
-        transform.Rotate(0,mouseX*LOOK_SENSITIVITY*Time.deltaTime,0);
+        transform.Rotate(0,lookXamt*LOOK_SENSITIVITY*Time.deltaTime,0);
         // rotate camera around x axis by y movement
-        view.transform.Rotate(-mouseY*LOOK_SENSITIVITY*Time.deltaTime,0,0);
+        view.transform.Rotate(-lookYamt*LOOK_SENSITIVITY*Time.deltaTime,0,0);
 
         // find input along axes
-        float vertMovement = (Input.GetKey(FORWARDS)?1f:0f) - (Input.GetKey(BACKWARDS)?1f:0f), 
-              horzMovement = (Input.GetKey(LEFT)?1f:0f) - (Input.GetKey(RIGHT)?1f:0f); 
+        input_vel = new Vector3(xMove, 0f, yMove);
 
         // update facing direction based on object rotation
         float rad = transform.eulerAngles.y * Mathf.Deg2Rad;
         facing = new Vector3(MathF.Sin(rad), 0.0f, MathF.Cos(rad));
 
         // find directions for movement
-        Vector3 forward = facing * vertMovement;
+        Vector3 forward = facing * input_vel.z;
         // vector orthogonal to the direction the player is facing
         Vector3 orth = Vector3.Cross(facing, Vector3.up);
-        Vector3 sideways = orth * horzMovement;
+        Vector3 sideways = orth * -input_vel.x;
 
         // get input velocity vector
         float y = velocity.y;
@@ -102,8 +119,8 @@ public class Player : MonoBehaviour
         velocity.Normalize(); velocity *= MOVE_SPEED;
         velocity.y += y;
 
-        // jump when space is pressed
-        if (Input.GetKey(JUMP) && !airborne) velocity.y += JUMP_HEIGHT;
+        // attempt to jump
+        if (Input.GetAxis(jump)==1f && !airborne) velocity.y += JUMP_HEIGHT; 
 
         facing.y = -MathF.Sin(view.transform.eulerAngles.x * Mathf.Deg2Rad);
         facing.Normalize();

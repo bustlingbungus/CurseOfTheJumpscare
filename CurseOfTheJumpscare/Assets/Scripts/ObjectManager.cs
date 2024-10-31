@@ -9,11 +9,11 @@ public class ObjectManager : MonoBehaviour
     /* ==========  PLAYER INPUTS  ========== */
 
     // button guy presses to pick up candy
-    public int pickUpCandy = 0; // left click
+    private string pickUpCandy = "Trigger1";
     // button monster presses to jumpscare 
-    public int jumpscareGuy = 1;
+    private string jumpscareGuy = "Trigger2";
     // the key to press to restart the game
-    public KeyCode restart = KeyCode.Backspace;
+    [SerializeField] private KeyCode restart = KeyCode.Space;
 
 
     /* ==========  CONSTANT GAME VARIABLES  ========== */
@@ -157,7 +157,7 @@ public class ObjectManager : MonoBehaviour
         }
 
         // if the guy tries to pickup a candy
-        if (Input.GetMouseButton(pickUpCandy))
+        if (Input.GetAxis(pickUpCandy)!=0f)
         {
             // if there is not a candy currently being tracked, try to see if any are close
             if (close_candy == null) search_for_candy();
@@ -208,7 +208,7 @@ public class ObjectManager : MonoBehaviour
 
     private void monster_input()
     {
-        if (Input.GetMouseButton(jumpscareGuy))
+        if (Input.GetAxis(jumpscareGuy)!=0f)
         {
             UnityEngine.Vector3 dist = guy.transform.position - monster.transform.position;
             if (dist.magnitude <= MAX_JUMPSCARE_DIST)
