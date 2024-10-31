@@ -13,7 +13,7 @@ public class ObjectManager : MonoBehaviour
     // button monster presses to jumpscare 
     public int jumpscareGuy = 1;
     // the key to press to restart the game
-    // public KeyCode restart = KeyCode.Backspace;
+    public KeyCode restart = KeyCode.Backspace;
 
 
     /* ==========  CONSTANT GAME VARIABLES  ========== */
@@ -44,6 +44,22 @@ public class ObjectManager : MonoBehaviour
         new UnityEngine.Vector3(49f , 2f, 125f),
     };
 
+    // list of locations candy will spawn at
+    public List<UnityEngine.Vector3> candy_locations = new List<UnityEngine.Vector3>
+    {
+        new UnityEngine.Vector3(140f,1f  ,196f),
+        new UnityEngine.Vector3(203f,1f  ,158f),
+        new UnityEngine.Vector3(151f,1f  ,126f),
+        new UnityEngine.Vector3(108f,1f  ,162f),
+        new UnityEngine.Vector3(255f,1f  ,123f),
+        new UnityEngine.Vector3(252f,1f  ,117f),
+        new UnityEngine.Vector3(70f ,13f ,104f),
+        new UnityEngine.Vector3(85f ,32f ,129f),
+        new UnityEngine.Vector3(89f ,37f ,122f),
+        new UnityEngine.Vector3(107f,37f ,106f),
+        new UnityEngine.Vector3(110f,34f ,90f ),
+    };
+
 
     /* ==========  GAME VARIABLES  ========== */
 
@@ -67,17 +83,22 @@ public class ObjectManager : MonoBehaviour
     public GameObject monsterWinPrefab;
     // prefab for guy victory
     public GameObject guyWinPrefab;
+    // prefab for candy
+    public GameObject candyPrefab;
 
     // list of all candy objects
-    public List<Candy> candies;
+    private List<Candy> candies = new List<Candy>();
     // the candy the guy player is close to, tracked to avoid searching candies every frame
     private Candy close_candy = null;
+    // list of gameobjects created at runtime
+    private List<GameObject> created_objects = new List<GameObject>();
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        respawn_players();
+        // start a new game;
+        reset_game();
     }
 
     // Update is called once per frame
@@ -86,17 +107,22 @@ public class ObjectManager : MonoBehaviour
         guy_input();
         monster_input();
 
+        // restart requested
+        if (Input.GetKey(restart)) reset_game();
+
         // check win conditions
         if (!game_is_over)
         {
             // guy victory
             if (candy_picked_up >= CANDY_WIN_AMT) {
-                Instantiate(guyWinPrefab);
+                GameObject obj = Instantiate(guyWinPrefab).gameObject;
+                created_objects.Add(obj);
                 game_is_over = true;
             }
             // monster victory
             else if (num_jumpscares >= JUMPSCARE_WIN_AMT) {
-                Instantiate(monsterWinPrefab);
+                GameObject obj = Instantiate(monsterWinPrefab).gameObject;
+                created_objects.Add(obj);
                 game_is_over = true;
             }
         }
@@ -209,9 +235,32 @@ public class ObjectManager : MonoBehaviour
     }
 
     // resets the game
-    // private void reset_game()
-    // {
-    //     candy_picked_up = num_jumpscares = 0;
-    //     close_candy = null;
-    // }
+    private void reset_game()
+    {
+        // destroy all created objects
+        for (int i=0,n=created_objects.Count; i<n; i++) Destroy(created_objects[i]);
+        created_objects.Clear();
+
+        // reset trackers
+        candy_picked_up = num_jumpscares = 0;
+        close_candy = null;
+        game_is_over = false;
+
+        // destroy all exising candy 
+        for (int i=0,n=candies.Count; i<n; i++) candies[i].Destroy();
+        candies.Clear();
+
+        // create new candies
+        for (int i=0, n=candy_locations.Count; i<n; i++)
+        {
+            // instantiate a new candy at the current location
+            GameObject obj = Instantiate(candyPrefab, candy_locations[i], new UnityEngine.Quaternion());
+            Candy candy = obj.GetComponent<Candy>();
+            // add candy to candies list
+            candies.Add(candy);
+        }
+
+        // spawn players in random locations
+        respawn_players();
+    }
 }
