@@ -45,8 +45,12 @@ public class Candy : MonoBehaviour
     }
 
     // Destroys the candy gameobject
-    public void Destroy()
+    public void Eat()
     {
-        Destroy(gameObject);
+        // play sound effect
+        AudioSource gulp = GetComponent<AudioSource>();
+        gulp.Play(0);
+        // disable rendering
+        GetComponent<MeshRenderer>().enabled = false;
     }
 }

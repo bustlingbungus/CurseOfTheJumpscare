@@ -20,7 +20,7 @@ InputManager:
     invert: 0
     type: 2
     axis: 0
-    joyNum: 1
+    joyNum: 3
   - serializedVersion: 3
     m_Name: Joy1Vertical
     descriptiveName: 
@@ -36,7 +36,7 @@ InputManager:
     invert: 0
     type: 2
     axis: 1
-    joyNum: 1
+    joyNum: 3
   - serializedVersion: 3
     m_Name: Look1Horizontal
     descriptiveName: 
@@ -52,7 +52,7 @@ InputManager:
     invert: 0
     type: 2
     axis: 3
-    joyNum: 1
+    joyNum: 3
   - serializedVersion: 3
     m_Name: Look1Vertical
     descriptiveName: 
@@ -68,7 +68,7 @@ InputManager:
     invert: 0
     type: 2
     axis: 4
-    joyNum: 1
+    joyNum: 3
   - serializedVersion: 3
     m_Name: Joy2Horizontal
     descriptiveName: 
@@ -148,7 +148,7 @@ InputManager:
     invert: 0
     type: 0
     axis: 0
-    joyNum: 1
+    joyNum: 3
   - serializedVersion: 3
     m_Name: J2A
     descriptiveName: 
@@ -196,5 +196,5 @@ InputManager:
     invert: 0
     type: 2
     axis: 9
-    joyNum: 1
+    joyNum: 3
   m_UsePhysicalKeys: 1

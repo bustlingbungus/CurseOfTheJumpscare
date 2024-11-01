@@ -181,7 +181,7 @@ public class ObjectManager : MonoBehaviour
             {
                 // remove candy from the game, and increment score
                 candies.Remove(close_candy);
-                close_candy.Destroy();
+                close_candy.Eat();
                 candy_picked_up++;
                 close_candy = null;
             }
@@ -247,7 +247,7 @@ public class ObjectManager : MonoBehaviour
         game_is_over = false;
 
         // destroy all exising candy 
-        for (int i=0,n=candies.Count; i<n; i++) candies[i].Destroy();
+        for (int i=0,n=candies.Count; i<n; i++) Destroy(candies[i].gameObject);
         candies.Clear();
 
         // create new candies
