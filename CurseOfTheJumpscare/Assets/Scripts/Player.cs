@@ -9,7 +9,7 @@ using UnityEngine.TextCore;
 public class Player : MonoBehaviour
 {
     /* ==========  INPUT KEYBINDS  ========== */
-    [SerializeField] private float LOOK_SENSITIVITY = 1.0f;
+    [SerializeField] private float lookSensitivity = 1.0f;
 
     // strings used for getting axis input
     private string x_movement_axis, y_movement_axis, x_look_axis, y_look_axis, jump;
@@ -18,24 +18,22 @@ public class Player : MonoBehaviour
     /* ==========  CONSTANTS  ========== */
 
     // Position of the camera relative to the player's centre
-    public Vector2 CAMERA_DISPLACEMENT = new Vector2(0.5f, 0.75f);
+    [SerializeField] private Vector2 cameraDisplacement = new Vector2(0.5f, 0.75f);
     // The amount of speed added from user input
-    public float MOVE_SPEED = 20.0f;
+    [SerializeField] private float moveSpeed = 20.0f;
     // How much vertical velocity is gained when jumping
-    public float JUMP_HEIGHT = 10.0f;
+    [SerializeField] private float jumpHeight = 10.0f;
 
 
     /* ==========  OTHER OBJECTS  ========== */
 
     // The camera the player sees with
-    public Camera view;
-    // global object manager
-    public ObjectManager manager;
+    [SerializeField] private Camera view;
 
     /* ==========  PLAYER OBJECT VARIABLES  ========== */
 
     // Rate of change of position
-    public Vector3 velocity = Vector3.zero;
+    [SerializeField] private Vector3 velocity = Vector3.zero;
     // input velocity 
     private Vector3 input_vel = Vector3.zero;
 
@@ -95,9 +93,9 @@ public class Player : MonoBehaviour
         
         
         // rotate object around y axis by mouseX
-        transform.Rotate(0,lookXamt*LOOK_SENSITIVITY*Time.deltaTime,0);
+        transform.Rotate(0,lookXamt*lookSensitivity*Time.deltaTime,0);
         // rotate camera around x axis by y movement
-        view.transform.Rotate(-lookYamt*LOOK_SENSITIVITY*Time.deltaTime,0,0);
+        view.transform.Rotate(-lookYamt*lookSensitivity*Time.deltaTime,0,0);
 
         // find input along axes
         input_vel = new Vector3(xMove, 0f, yMove);
@@ -116,11 +114,11 @@ public class Player : MonoBehaviour
         float y = velocity.y;
         velocity = forward + sideways;
         // make the vector's magnitude the player's move speed
-        velocity.Normalize(); velocity *= MOVE_SPEED;
+        velocity.Normalize(); velocity *= moveSpeed;
         velocity.y += y;
 
         // attempt to jump
-        if (Input.GetAxis(jump)==1f && !airborne) velocity.y += JUMP_HEIGHT; 
+        if (Input.GetAxis(jump)==1f && !airborne) velocity.y += jumpHeight; 
 
         facing.y = -MathF.Sin(view.transform.eulerAngles.x * Mathf.Deg2Rad);
         facing.Normalize();
@@ -129,7 +127,7 @@ public class Player : MonoBehaviour
     /* Sets the camera position relative to the object's centre, based on the facing vector */
     private void set_camera()
     {
-        Vector3 disp = new Vector3(facing.x*CAMERA_DISPLACEMENT.x, CAMERA_DISPLACEMENT.y, facing.z*CAMERA_DISPLACEMENT.x);
+        Vector3 disp = new Vector3(facing.x*cameraDisplacement.x, cameraDisplacement.y, facing.z*cameraDisplacement.x);
         view.transform.position = transform.position + disp;
         view.transform.eulerAngles = new Vector3(view.transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.x);
     }

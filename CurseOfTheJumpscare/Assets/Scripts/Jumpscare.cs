@@ -4,7 +4,7 @@ using UnityEngine;
 public class Jumpscare : MonoBehaviour
 {
     // the amount of time (in seconds) the jumpscare will exist
-    public float scareTime = 5.0f;
+    [SerializeField] private float scareTime = 5.0f;
 
     // audio that plays on jumpscare
     private AudioSource dracula, vine_boom;

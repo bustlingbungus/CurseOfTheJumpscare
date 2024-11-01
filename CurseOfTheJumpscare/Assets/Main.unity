@@ -179,12 +179,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 346030645de73ad45b6f8302c3f8673b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LOOK_SENSITIVITY: 200
-  CAMERA_DISPLACEMENT: {x: 0.5, y: 1.25}
-  MOVE_SPEED: 10
-  JUMP_HEIGHT: 10
+  lookSensitivity: 200
+  cameraDisplacement: {x: 0.5, y: 0.75}
+  moveSpeed: 10
+  jumpHeight: 10
   view: {fileID: 330585545}
-  manager: {fileID: 824401123}
   velocity: {x: 0, y: 0, z: 0}
 --- !u!65 &3114780
 BoxCollider:
@@ -12166,18 +12165,6 @@ MonoBehaviour:
   - {x: 195, y: 2, z: 188}
   - {x: 85, y: 2, z: 56}
   - {x: 49, y: 2, z: 125}
-  candyLocations:
-  - {x: 140, y: 1, z: 196}
-  - {x: 203, y: 1, z: 158}
-  - {x: 151, y: 1, z: 126}
-  - {x: 108, y: 1, z: 162}
-  - {x: 255, y: 1, z: 123}
-  - {x: 252, y: 1, z: 117}
-  - {x: 70, y: 13, z: 104}
-  - {x: 85, y: 32, z: 129}
-  - {x: 89, y: 37, z: 122}
-  - {x: 107, y: 37, z: 106}
-  - {x: 110, y: 34, z: 90}
   guy: {fileID: 3114779}
   monster: {fileID: 1572676984}
   jumpscarePrefab: {fileID: 4283320119236165003, guid: b50750bc8e0399f4bba1f751dca70c89, type: 3}
@@ -22292,12 +22279,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a55d827770f7ca341973b28dda852603, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LOOK_SENSITIVITY: 200
-  CAMERA_DISPLACEMENT: {x: 0.5, y: 1.25}
-  MOVE_SPEED: 10
-  JUMP_HEIGHT: 10
+  lookSensitivity: 200
+  cameraDisplacement: {x: 0.5, y: 0.75}
+  moveSpeed: 14
+  jumpHeight: 10
   view: {fileID: 1502409022}
-  manager: {fileID: 824401123}
   velocity: {x: 0, y: 0, z: 0}
 --- !u!54 &1572676985
 Rigidbody:
