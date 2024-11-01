@@ -31,6 +31,7 @@ public class Candy : MonoBehaviour
     // styles used for text rendering
     private GUIStyle timer_style = new GUIStyle(); 
 
+    private Light spotlight;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -42,6 +43,8 @@ public class Candy : MonoBehaviour
 
         eat_sound = GetComponent<AudioSource>();
         rendering = GetComponent<MeshRenderer>();
+
+        spotlight = gameObject.GetComponentInChildren<Light>();
     }
 
     // Update is called once per frame
@@ -86,6 +89,7 @@ public class Candy : MonoBehaviour
         eat_sound.Play(0);
         // disable rendering
         rendering.enabled = false;
+        spotlight.enabled = false;
         is_eaten = true;
     }
 
@@ -94,6 +98,8 @@ public class Candy : MonoBehaviour
     {
         // enable rendering
         rendering.enabled = true;
+        spotlight.enabled = true;
         is_eaten = false;
+        
     }
 }
