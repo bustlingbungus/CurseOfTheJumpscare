@@ -104,6 +104,8 @@ public class ObjectManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        candy_count_style.fontSize = candyCountFontSize;
+        candy_count_style.normal.textColor = candyCountColour;
         guy_input();
         monster_input();
 
