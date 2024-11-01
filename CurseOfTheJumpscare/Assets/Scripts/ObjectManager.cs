@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Video;
 
 public class ObjectManager : MonoBehaviour
@@ -13,7 +14,7 @@ public class ObjectManager : MonoBehaviour
     // button monster presses to jumpscare 
     private string jumpscareGuy = "Trigger2";
     // the key to press to restart the game
-    [SerializeField] private KeyCode restart = KeyCode.Space;
+    [SerializeField] private InputAction restart;
 
 
     /* ==========  RENDERING PARAMETERS  ========== */
@@ -43,15 +44,15 @@ public class ObjectManager : MonoBehaviour
     [SerializeField] private int jumpscareWinAmt = 2;
 
     // list of valid positions the guy and monster can be teleported to 
-    [SerializeField] private List<UnityEngine.Vector3> spawnLocations = new List<UnityEngine.Vector3>
+    [SerializeField] private List<List<UnityEngine.Vector3>> spawnLocations = new List<List<UnityEngine.Vector3>>
     {
-        new UnityEngine.Vector3(178f, 2f, 136f),
-        new UnityEngine.Vector3(237f, 2f, 125f),
-        new UnityEngine.Vector3(111f, 2f, 182f),
-        new UnityEngine.Vector3(134f, 2f, 104f),
-        new UnityEngine.Vector3(195f, 2f, 188f),
-        new UnityEngine.Vector3(85f , 2f, 56f ),
-        new UnityEngine.Vector3(49f , 2f, 125f),
+        new List<UnityEngine.Vector3>{ new UnityEngine.Vector3(178f, 2f, 136f), new UnityEngine.Vector3(0f  ,185f,0f  ) }, 
+        new List<UnityEngine.Vector3>{ new UnityEngine.Vector3(237f, 2f, 125f), new UnityEngine.Vector3(0f  ,106f,0f  ) },
+        new List<UnityEngine.Vector3>{ new UnityEngine.Vector3(111f, 2f, 182f), new UnityEngine.Vector3(0f  ,80f ,0f  ) },
+        new List<UnityEngine.Vector3>{ new UnityEngine.Vector3(134f, 2f, 104f), new UnityEngine.Vector3(0f  ,339f,0f  ) },
+        new List<UnityEngine.Vector3>{ new UnityEngine.Vector3(195f, 2f, 188f), new UnityEngine.Vector3(0f  ,235f,0f  ) },
+        new List<UnityEngine.Vector3>{ new UnityEngine.Vector3(85f , 2f, 56f ), new UnityEngine.Vector3(350f,5f  ,0f  ) },
+        new List<UnityEngine.Vector3>{ new UnityEngine.Vector3(49f , 2f, 125f), new UnityEngine.Vector3(355f,112f,0f  ) },
     };
 
 
@@ -104,7 +105,7 @@ public class ObjectManager : MonoBehaviour
         monster_input();
 
         // restart requested
-        if (Input.GetKey(restart)) reset_game();
+        restart.performed += context => reset_game();
 
         // check win conditions
         if (!game_is_over)
@@ -131,6 +132,17 @@ public class ObjectManager : MonoBehaviour
         GUI.Label(candyCountRect, candy_picked_up.ToString(), candy_count_style);
     }
 
+    // input actions
+    void OnEnable()
+    {
+        restart.Enable();
+    }
+
+    void OnDisable()
+    {
+        restart.Disable();
+    }
+
 
     /* ==========  HELPER FUNCTIONS  ========== */
 
@@ -144,8 +156,12 @@ public class ObjectManager : MonoBehaviour
         if (guy_idx == monster_idx) monster_idx = (monster_idx+1)%spawnLocations.Count;
 
         // set the players' locations to the chosen locations
-        guy.transform.position = spawnLocations[guy_idx];
-        monster.transform.position = spawnLocations[monster_idx];
+        guy.transform.position = spawnLocations[guy_idx][0];
+        monster.transform.position = spawnLocations[monster_idx][0];
+
+        // set look directions
+        guy.set_facing(spawnLocations[guy_idx][1]);
+        monster.set_facing(spawnLocations[monster_idx][1]);
     }
 
     // updates the closest candy member if the guy is too far away

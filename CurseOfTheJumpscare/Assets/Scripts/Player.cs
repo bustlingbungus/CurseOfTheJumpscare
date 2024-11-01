@@ -132,6 +132,14 @@ public class Player : MonoBehaviour
         view.transform.eulerAngles = new Vector3(view.transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.x);
     }
 
+    /* makes the player face in the given direction */
+    public void set_facing(Vector3 dir)
+    {
+        facing = dir;
+        transform.eulerAngles = new Vector3(0f,dir.y,dir.z);
+        view.transform.eulerAngles = new Vector3(dir.x, transform.eulerAngles.y, transform.eulerAngles.x);
+    }
+
     /* Stop the guy from moving up/down when they hit the ground */    
     void OnCollisionStay(Collision collision)
     {
