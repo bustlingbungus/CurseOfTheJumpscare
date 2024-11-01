@@ -9,6 +9,9 @@ public class Jumpscare : MonoBehaviour
     // audio that plays on jumpscare
     private AudioSource dracula, vine_boom;
 
+    // returns true when the object should be destroyed
+    public bool Probe() { return scareTime <= 0f; }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -26,8 +29,6 @@ public class Jumpscare : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // jumpscare is over
-        if (scareTime <= 0.0f) Destroy(gameObject);
-        else scareTime -= Time.deltaTime;
+        scareTime -= Time.deltaTime;
     }
 }

@@ -88,6 +88,9 @@ public class ObjectManager : MonoBehaviour
     // list of gameobjects created at runtime
     private List<GameObject> created_objects = new List<GameObject>();
 
+    // current jumpscare object
+    private Jumpscare curr_jumpscare = null;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -115,21 +118,31 @@ public class ObjectManager : MonoBehaviour
                 GameObject obj = Instantiate(guyWinPrefab).gameObject;
                 created_objects.Add(obj);
                 game_is_over = true;
+                monster.set_GUI_rendering(false);
             }
             // monster victory
             else if (num_jumpscares >= jumpscareWinAmt) {
                 GameObject obj = Instantiate(monsterWinPrefab).gameObject;
                 created_objects.Add(obj);
                 game_is_over = true;
+                monster.set_GUI_rendering(false);
             }
         }
+
+        // check to see if the current jumpscare needs to be removed
+        if (curr_jumpscare != null) if (curr_jumpscare.Probe()) remove_jumpscare();
+
+        // give monster direction to guy
+        monster.set_displacement(guy.transform.position - monster.transform.position);
     }
 
     // GUI rendering 
     void OnGUI()
     {
         // render UI
-        GUI.Label(candyCountRect, candy_picked_up.ToString(), candy_count_style);
+        if (curr_jumpscare == null && !game_is_over) {
+            GUI.Label(candyCountRect, candy_picked_up.ToString(), candy_count_style);
+        }
     }
 
     // input actions
@@ -247,10 +260,19 @@ public class ObjectManager : MonoBehaviour
     private void jumpscare()
     {
         // create jumpscare object
-        Instantiate(jumpscarePrefab);
+        curr_jumpscare = Instantiate(jumpscarePrefab);
         // put both players in random locations
         respawn_players();
+        monster.set_GUI_rendering(false);
         num_jumpscares++;
+    }
+
+    // removes a jumpscare
+    private void remove_jumpscare()
+    {
+        if (!game_is_over) monster.set_GUI_rendering(true);
+        Destroy(curr_jumpscare.gameObject);
+        curr_jumpscare = null;
     }
 
     // resets the game
@@ -270,5 +292,6 @@ public class ObjectManager : MonoBehaviour
 
         // spawn players in random locations
         respawn_players();
+        monster.set_GUI_rendering(true);
     }
 }
