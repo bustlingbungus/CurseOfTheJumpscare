@@ -11780,12 +11780,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   restart: 32
-  MAX_DIST_TO_CANDY: 4
-  CANDY_LOOK_REQ: 0.5
-  CANDY_WIN_AMT: 6
-  MAX_JUMPSCARE_DIST: 7
-  JUMPSCARE_WIN_AMT: 2
-  spawn_locations:
+  candyCountRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 200
+    height: 200
+  candyCountFontSize: 70
+  candyCountColour: {r: 1, g: 1, b: 1, a: 1}
+  maxDistToCandy: 7
+  candyLookReq: 0.5
+  candyWinAmt: 6
+  maxJumpscareDist: 7
+  jumpscareWinAmt: 2
+  spawnLocations:
   - {x: 178, y: 2, z: 136}
   - {x: 237, y: 2, z: 125}
   - {x: 111, y: 2, z: 182}
@@ -11793,18 +11801,18 @@ MonoBehaviour:
   - {x: 195, y: 2, z: 188}
   - {x: 85, y: 2, z: 56}
   - {x: 49, y: 2, z: 125}
-  candy_locations:
-  - {x: 140, y: 1.5, z: 196}
-  - {x: 203, y: 1.5, z: 158}
-  - {x: 151, y: 1.5, z: 126}
-  - {x: 108, y: 1.5, z: 162}
-  - {x: 255, y: 1.5, z: 123}
-  - {x: 252, y: 1.5, z: 117}
-  - {x: 70, y: 13.5, z: 104}
-  - {x: 85, y: 33.5, z: 129}
-  - {x: 89, y: 38.5, z: 122}
-  - {x: 107, y: 40.5, z: 106}
-  - {x: 111, y: 36.5, z: 90}
+  candyLocations:
+  - {x: 140, y: 1, z: 196}
+  - {x: 203, y: 1, z: 158}
+  - {x: 151, y: 1, z: 126}
+  - {x: 108, y: 1, z: 162}
+  - {x: 255, y: 1, z: 123}
+  - {x: 252, y: 1, z: 117}
+  - {x: 70, y: 13, z: 104}
+  - {x: 85, y: 32, z: 129}
+  - {x: 89, y: 37, z: 122}
+  - {x: 107, y: 37, z: 106}
+  - {x: 110, y: 34, z: 90}
   guy: {fileID: 3114779}
   monster: {fileID: 1572676984}
   jumpscarePrefab: {fileID: 4283320119236165003, guid: b50750bc8e0399f4bba1f751dca70c89, type: 3}

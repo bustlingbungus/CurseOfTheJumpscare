@@ -16,24 +16,34 @@ public class ObjectManager : MonoBehaviour
     [SerializeField] private KeyCode restart = KeyCode.Space;
 
 
+    /* ==========  RENDERING PARAMETERS  ========== */
+ 
+    // candy count rendering options
+    [SerializeField] private Rect candyCountRect = new Rect(0,0,50,50);
+    [SerializeField] private int candyCountFontSize = 50;
+    [SerializeField] private Color candyCountColour = Color.white;
+    // styles used for text rendering
+    private GUIStyle candy_count_style = new GUIStyle(); 
+
+
     /* ==========  CONSTANT GAME VARIABLES  ========== */
 
     // the maximum distance the guy can be from a candy to pick it up
-    public float MAX_DIST_TO_CANDY = 1.0f;
+    [SerializeField] private float maxDistToCandy = 1.0f;
     // how directly the guy needs to be facing candy to pick it up
     // 1 = needs to look directly at it, -1 = no requirement
-    public float CANDY_LOOK_REQ = 0.5f;
+    [SerializeField] private float candyLookReq = 0.5f;
 
     // the amount of candy required to win 
-    public int CANDY_WIN_AMT = 5;
+    [SerializeField] private int candyWinAmt = 5;
 
     // the maximum distance the monster can jumpscare from
-    public float MAX_JUMPSCARE_DIST = 7.0f;
+    [SerializeField] private float maxJumpscareDist = 7.0f;
     // the amount of jumpscares required for monster victory
-    public int JUMPSCARE_WIN_AMT = 2;
+    [SerializeField] private int jumpscareWinAmt = 2;
 
     // list of valid positions the guy and monster can be teleported to 
-    public List<UnityEngine.Vector3> spawn_locations = new List<UnityEngine.Vector3>
+    [SerializeField] private List<UnityEngine.Vector3> spawnLocations = new List<UnityEngine.Vector3>
     {
         new UnityEngine.Vector3(178f, 2f, 136f),
         new UnityEngine.Vector3(237f, 2f, 125f),
@@ -45,7 +55,7 @@ public class ObjectManager : MonoBehaviour
     };
 
     // list of locations candy will spawn at
-    public List<UnityEngine.Vector3> candy_locations = new List<UnityEngine.Vector3>
+    [SerializeField] private List<UnityEngine.Vector3> candyLocations = new List<UnityEngine.Vector3>
     {
         new UnityEngine.Vector3(140f,1f  ,196f),
         new UnityEngine.Vector3(203f,1f  ,158f),
@@ -74,17 +84,17 @@ public class ObjectManager : MonoBehaviour
     /* ==========  GAME OBJECTS  ========== */
 
     // guy player
-    public Guy guy;
+    [SerializeField] private Guy guy;
     // monster player
-    public Monster monster;
+    [SerializeField] private Monster monster;
     // prefab for jumpscare
-    public Jumpscare jumpscarePrefab;
+    [SerializeField] private Jumpscare jumpscarePrefab;
     // prefab for monster victory
-    public GameObject monsterWinPrefab;
+    [SerializeField] private GameObject monsterWinPrefab;
     // prefab for guy victory
-    public GameObject guyWinPrefab;
+    [SerializeField] private GameObject guyWinPrefab;
     // prefab for candy
-    public GameObject candyPrefab;
+    [SerializeField] private GameObject candyPrefab;
 
     // list of all candy objects
     private List<Candy> candies = new List<Candy>();
@@ -99,6 +109,8 @@ public class ObjectManager : MonoBehaviour
     {
         // start a new game;
         reset_game();
+        candy_count_style.fontSize = candyCountFontSize;
+        candy_count_style.normal.textColor = candyCountColour;
     }
 
     // Update is called once per frame
@@ -114,18 +126,25 @@ public class ObjectManager : MonoBehaviour
         if (!game_is_over)
         {
             // guy victory
-            if (candy_picked_up >= CANDY_WIN_AMT) {
+            if (candy_picked_up >= candyWinAmt) {
                 GameObject obj = Instantiate(guyWinPrefab).gameObject;
                 created_objects.Add(obj);
                 game_is_over = true;
             }
             // monster victory
-            else if (num_jumpscares >= JUMPSCARE_WIN_AMT) {
+            else if (num_jumpscares >= jumpscareWinAmt) {
                 GameObject obj = Instantiate(monsterWinPrefab).gameObject;
                 created_objects.Add(obj);
                 game_is_over = true;
             }
         }
+    }
+
+    // GUI rendering 
+    void OnGUI()
+    {
+        // render UI
+        GUI.Label(candyCountRect, candy_picked_up.ToString(), candy_count_style);
     }
 
 
@@ -136,13 +155,13 @@ public class ObjectManager : MonoBehaviour
     {
         // get random indices for the spawn locations list
         System.Random rnd = new System.Random();
-        int guy_idx = rnd.Next(spawn_locations.Count), monster_idx = rnd.Next(spawn_locations.Count);
+        int guy_idx = rnd.Next(spawnLocations.Count), monster_idx = rnd.Next(spawnLocations.Count);
         // ensure the indices are different 
-        if (guy_idx == monster_idx) monster_idx = (monster_idx+1)%spawn_locations.Count;
+        if (guy_idx == monster_idx) monster_idx = (monster_idx+1)%spawnLocations.Count;
 
         // set the players' locations to the chosen locations
-        guy.transform.position = spawn_locations[guy_idx];
-        monster.transform.position = spawn_locations[monster_idx];
+        guy.transform.position = spawnLocations[guy_idx];
+        monster.transform.position = spawnLocations[monster_idx];
     }
 
     // updates the closest candy member if the guy is too far away
@@ -153,7 +172,7 @@ public class ObjectManager : MonoBehaviour
         // if the guy is too far from close candy, stop tracking it
         if (close_candy != null) {
             dist = close_candy.transform.position - guy.transform.position;
-            if (dist.magnitude > MAX_DIST_TO_CANDY) close_candy = null;
+            if (dist.magnitude > maxDistToCandy) close_candy = null;
         }
 
         // if the guy tries to pickup a candy
@@ -174,7 +193,7 @@ public class ObjectManager : MonoBehaviour
         // dot product of unit vectors: -1 <= x <= 1
         // if the dot product is greater than the required value, the guy is looking 
         // sufficiently close to the candy
-        if (UnityEngine.Vector3.Dot(dir, guy.Facing()) >= CANDY_LOOK_REQ)
+        if (UnityEngine.Vector3.Dot(dir, guy.Facing()) >= candyLookReq)
         {
             // interact with the candy. If true, it has been picked up
             if (close_candy.interact())
@@ -198,7 +217,7 @@ public class ObjectManager : MonoBehaviour
             Candy candy = candies[i];
             UnityEngine.Vector3 disp = candy.transform.position - guy.transform.position;
             // close candy found, attempt to pick it up and stop searching
-            if (disp.magnitude <= MAX_DIST_TO_CANDY) {
+            if (disp.magnitude <= maxDistToCandy) {
                 close_candy = candy; 
                 attempt_candy_pickup(disp.normalized);
                 break;
@@ -211,7 +230,7 @@ public class ObjectManager : MonoBehaviour
         if (Input.GetAxis(jumpscareGuy)!=0f)
         {
             UnityEngine.Vector3 dist = guy.transform.position - monster.transform.position;
-            if (dist.magnitude <= MAX_JUMPSCARE_DIST)
+            if (dist.magnitude <= maxJumpscareDist)
             {
                 // valid if the monster is looking at the guy AND both players are facing the same direction
                 // monster looking at guy: dot product of monster facing and displacement is positive
@@ -251,10 +270,10 @@ public class ObjectManager : MonoBehaviour
         candies.Clear();
 
         // create new candies
-        for (int i=0, n=candy_locations.Count; i<n; i++)
+        for (int i=0, n=candyLocations.Count; i<n; i++)
         {
             // instantiate a new candy at the current location
-            GameObject obj = Instantiate(candyPrefab, candy_locations[i], new UnityEngine.Quaternion());
+            GameObject obj = Instantiate(candyPrefab, candyLocations[i], new UnityEngine.Quaternion());
             Candy candy = obj.GetComponent<Candy>();
             // add candy to candies list
             candies.Add(candy);
