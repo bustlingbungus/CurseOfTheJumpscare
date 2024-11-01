@@ -1,11 +1,14 @@
 using System;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Candy : MonoBehaviour
 {
     /* How long it takes to pick up the candy (seconds) */
-    public float PICKUP_TIME = 3.0f;
+    [SerializeField] private float pickupTime = 3.0f;
+    /* The speed the candy rotates */
+    [SerializeField] private float rotationSpeed = 10.0f;
     /* The amount of time the candy has been interacted with */
     private float pickupTimer = 0.0f;
     /* Whether or not the candy is being interacted with */
@@ -27,6 +30,9 @@ public class Candy : MonoBehaviour
             interaction = false;
         // else, decrease the candy timer (keep above zero)
         } else if (pickupTimer > 0.0f) pickupTimer = MathF.Max(0.0f, pickupTimer - Time.deltaTime);
+
+        // rotate continuously
+        transform.Rotate(new Vector3(0f, Time.deltaTime*rotationSpeed, 0f));
     }
 
     /* ==========  HELPER FUNCTIONS  ==========*/
@@ -35,7 +41,7 @@ public class Candy : MonoBehaviour
     // if the pickup timer is greater than or equal to the total pickup time, returns true
     public bool interact() {
         interaction = true;
-        return pickupTimer >= PICKUP_TIME;
+        return pickupTimer >= pickupTime;
     }
 
     // Destroys the candy gameobject
