@@ -17,6 +17,10 @@ public class Candy : MonoBehaviour
     /* Whether or not the candy has been eaten with */
     private bool is_eaten = false;
 
+    // object components
+    AudioSource eat_sound;
+    MeshRenderer rendering;
+
 
     /* ==========  RENDERING PARAMETERS  ========== */
  
@@ -35,6 +39,9 @@ public class Candy : MonoBehaviour
         timer_style.fontSize = timerFontSize;
         timer_style.normal.textColor = timerColour;
         timerRect = new Rect((Screen.width/4)-(2*timerFontSize),(Screen.height-timerFontSize)/2,200,200);
+
+        eat_sound = GetComponent<AudioSource>();
+        rendering = GetComponent<MeshRenderer>();
     }
 
     // Update is called once per frame
@@ -76,9 +83,17 @@ public class Candy : MonoBehaviour
     public void Eat()
     {
         // play sound effect
-        GetComponent<AudioSource>().Play(0);
+        eat_sound.Play(0);
         // disable rendering
-        GetComponent<MeshRenderer>().enabled = false;
+        rendering.enabled = false;
         is_eaten = true;
+    }
+
+    // un eats the candy
+    public void Vomit()
+    {
+        // enable rendering
+        rendering.enabled = true;
+        is_eaten = false;
     }
 }

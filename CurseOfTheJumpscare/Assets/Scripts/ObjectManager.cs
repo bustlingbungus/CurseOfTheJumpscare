@@ -54,22 +54,6 @@ public class ObjectManager : MonoBehaviour
         new UnityEngine.Vector3(49f , 2f, 125f),
     };
 
-    // list of locations candy will spawn at
-    [SerializeField] private List<UnityEngine.Vector3> candyLocations = new List<UnityEngine.Vector3>
-    {
-        new UnityEngine.Vector3(140f,1f  ,196f),
-        new UnityEngine.Vector3(203f,1f  ,158f),
-        new UnityEngine.Vector3(151f,1f  ,126f),
-        new UnityEngine.Vector3(108f,1f  ,162f),
-        new UnityEngine.Vector3(255f,1f  ,123f),
-        new UnityEngine.Vector3(252f,1f  ,117f),
-        new UnityEngine.Vector3(70f ,13f ,104f),
-        new UnityEngine.Vector3(85f ,32f ,129f),
-        new UnityEngine.Vector3(89f ,37f ,122f),
-        new UnityEngine.Vector3(107f,37f ,106f),
-        new UnityEngine.Vector3(110f,34f ,90f ),
-    };
-
 
     /* ==========  GAME VARIABLES  ========== */
 
@@ -97,7 +81,7 @@ public class ObjectManager : MonoBehaviour
     [SerializeField] private GameObject candyPrefab;
 
     // list of all candy objects
-    private List<Candy> candies = new List<Candy>();
+    [SerializeField] private List<Candy> candies = new List<Candy>();
     // the candy the guy player is close to, tracked to avoid searching candies every frame
     private Candy close_candy = null;
     // list of gameobjects created at runtime
@@ -265,19 +249,8 @@ public class ObjectManager : MonoBehaviour
         close_candy = null;
         game_is_over = false;
 
-        // destroy all exising candy 
-        for (int i=0,n=candies.Count; i<n; i++) Destroy(candies[i].gameObject);
-        candies.Clear();
-
-        // create new candies
-        for (int i=0, n=candyLocations.Count; i<n; i++)
-        {
-            // instantiate a new candy at the current location
-            GameObject obj = Instantiate(candyPrefab, candyLocations[i], new UnityEngine.Quaternion());
-            Candy candy = obj.GetComponent<Candy>();
-            // add candy to candies list
-            candies.Add(candy);
-        }
+        // ensure all candies are enabled 
+        for (int i=0,n=candies.Count; i<n; i++) candies[i].Vomit();
 
         // spawn players in random locations
         respawn_players();
