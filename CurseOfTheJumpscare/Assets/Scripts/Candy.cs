@@ -1,3 +1,5 @@
+#if UNITY_EDITOR
+
 using System;
 using System.Threading;
 using UnityEngine;
@@ -103,3 +105,5 @@ public class Candy : MonoBehaviour
         
     }
 }
+
+#endif

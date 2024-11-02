@@ -1,3 +1,5 @@
+#if UNITY_EDITOR
+
 using System;
 using UnityEngine;
 
@@ -32,3 +34,5 @@ public class Jumpscare : MonoBehaviour
         scareTime -= Time.deltaTime;
     }
 }
+
+#endif

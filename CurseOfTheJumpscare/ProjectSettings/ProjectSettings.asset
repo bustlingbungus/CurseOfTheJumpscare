@@ -931,11 +931,11 @@ PlayerSettings:
   captureStartupLogs: {}
   activeInputHandler: 2
   windowsGamepadBackendHint: 0
-  cloudProjectId: 18b7759b-2316-41ed-8931-c8e9bb56b3df
+  cloudProjectId: a7c32393-d628-4404-ba7e-56665593dbe3
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: CurseOfTheJumpscare 2024-10-26_23-48-08
-  organizationId: bustling_bungus
+  projectName: CurseOfTheJumpscare
+  organizationId: cadenator114031
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}

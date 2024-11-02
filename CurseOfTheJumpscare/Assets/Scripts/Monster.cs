@@ -1,3 +1,5 @@
+#if UNITY_EDITOR
+
 using System;
 using System.Reflection.Emit;
 using Unity.VisualScripting;
@@ -39,6 +41,7 @@ public class Monster : Player
     // Update is called once per frame
     public override void Update()
     {
+        pointer_rect = new Rect((3*Screen.width/4)-100, (Screen.height/2)-400, 200,200);
         get_input();
         base.Update();
     }
@@ -61,3 +64,5 @@ public class Monster : Player
         }
     }
 }
+
+#endif

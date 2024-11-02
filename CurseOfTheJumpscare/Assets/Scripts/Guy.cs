@@ -1,3 +1,5 @@
+#if UNITY_EDITOR
+
 using System;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -20,3 +22,5 @@ public class Guy : Player
         base.Update();
     }
 }
+
+#endif

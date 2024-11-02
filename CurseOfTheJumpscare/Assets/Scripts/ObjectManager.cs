@@ -1,3 +1,5 @@
+#if UNITY_EDITOR
+
 using System.Collections.Generic;
 using System.Numerics;
 using Unity.VisualScripting;
@@ -251,7 +253,7 @@ public class ObjectManager : MonoBehaviour
                 // monster looking at guy: dot product of monster facing and displacement is positive
                 // facing same direction: dot product of facing vectors positive
                 if (UnityEngine.Vector3.Dot(monster.Facing(), dist) > 0.0f && 
-                    UnityEngine.Vector3.Dot(monster.Facing(), guy.Facing()) > 0.5f) {
+                    UnityEngine.Vector3.Dot(monster.Facing(), guy.Facing()) > -0.5f) {
                     jumpscare();
                 }
             }
@@ -297,3 +299,5 @@ public class ObjectManager : MonoBehaviour
         monster.set_GUI_rendering(true);
     }
 }
+
+#endif

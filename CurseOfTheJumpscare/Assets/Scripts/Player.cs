@@ -1,3 +1,5 @@
+#if UNITY_EDITOR
+
 using System;
 using Unity.VisualScripting;
 using UnityEditor.Rendering.LookDev;
@@ -160,3 +162,5 @@ public class Player : MonoBehaviour
         airborne = false;
     }
 }
+
+#endif
